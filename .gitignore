@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/HtmlBuilder/v16
+/HtmlBuilder/bin/Debug/netstandard1.2
+/HtmlBuilder/obj
+/HtmlBuilder.Test/bin/Debug/netcoreapp3.1
+/HtmlBuilder.Test/obj

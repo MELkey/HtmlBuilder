@@ -7,3 +7,5 @@
 /HtmlBuilder/obj
 /HtmlBuilder.Test/bin/Debug/netcoreapp3.1
 /HtmlBuilder.Test/obj
+/HtmlBuilder/bin/Debug
+/HtmlBuilder/bin/Release

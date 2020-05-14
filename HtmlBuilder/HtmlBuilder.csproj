@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
+    <Authors>MELkey</Authors>
+    <Description>Simple fluent HTML builder</Description>
+    <RepositoryUrl>https://github.com/MELkey/HtmlBuilder</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

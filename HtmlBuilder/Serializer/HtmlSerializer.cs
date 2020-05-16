@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace HtmlBuilder.Serializer
 {
-    public class HtmlSerializer : IHtmlSerializer
+    public partial class HtmlSerializer : IHtmlSerializerAsync
     {
         private readonly IHtmlAttributePrinter htmlAttributePrinter;
         private readonly IHtmlSerializerSettings settings;

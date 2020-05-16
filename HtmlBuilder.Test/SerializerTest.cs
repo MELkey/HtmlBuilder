@@ -39,6 +39,13 @@ namespace HtmlBuilder.Test
                 serializer.Serialize(sw);
                 result = sw.ToString();
             }
+            var testResult = 
+@"<div id=""selector"">
+    <div class=""child_class"">
+        <a href=""https://host.com"">The link</a>
+    </div>
+</div>";
+            Assert.AreEqual(result, testResult); 
         }
     }
 }

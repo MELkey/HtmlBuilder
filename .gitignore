@@ -10,3 +10,4 @@
 /HtmlBuilder/bin/Debug
 /HtmlBuilder/bin/Release
 /.vs/HtmlBuilder/DesignTimeBuild/.dtbcache.v2
+/HtmlBuilder.Test/bin/Release/netcoreapp3.1

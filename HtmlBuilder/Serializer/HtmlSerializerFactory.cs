@@ -49,21 +49,9 @@ namespace HtmlBuilder.Serializer
                 indentCount: 4,
                 useParrentIndent: false,
                 useCompactStyle: true,
-                tokens: GetDefaultTokens());
+                tokens: new Tokens());
 
             return settings;
-        }
-
-        private ITokens GetDefaultTokens()
-        {
-            var tokens = new Tokens(
-                open: TokenConstants.LessThan.ToString(),
-                close: TokenConstants.GreaterThan.ToString(),
-                closePrefix: TokenConstants.Solidus.ToString(),
-                indent: TokenConstants.WhiteSpace.ToString(),
-                whiteSpace: TokenConstants.WhiteSpace.ToString());
-
-            return tokens;
         }
     }
 }

@@ -12,13 +12,13 @@ namespace HtmlBuilder.Serializer
         public HtmlSerializerFactory()
         {
             this.htmlAttributePrinter = new HtmlAttributePrinter();
-            this.settings = GetDefaultSettings();
+            this.settings = new HtmlSerializerSettings();
         }
 
         public HtmlSerializerFactory(IHtmlAttributePrinter htmlAttributePrinter)
         {
             this.htmlAttributePrinter = htmlAttributePrinter;
-            this.settings = GetDefaultSettings();
+            this.settings = new HtmlSerializerSettings();
         }
 
         public HtmlSerializerFactory(IHtmlSerializerSettings settings)
@@ -41,17 +41,6 @@ namespace HtmlBuilder.Serializer
         public IHtmlSerializer Create(IElement element)
         {
             return new HtmlSerializer(element, htmlAttributePrinter, settings);
-        }
-
-        private IHtmlSerializerSettings GetDefaultSettings()
-        {
-            var settings = new HtmlSerializerSettings(
-                indentCount: 4,
-                useParrentIndent: false,
-                useCompactStyle: true,
-                tokens: new Tokens());
-
-            return settings;
         }
     }
 }

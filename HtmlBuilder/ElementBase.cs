@@ -43,6 +43,7 @@ namespace HtmlBuilder
                 var serializer = serializerFactory.Create(this);
                 serializer.Serialize(stringWriter);
                 var result = stringWriter.ToString();
+                stringWriter.Flush();
                 return result;
             }
         }

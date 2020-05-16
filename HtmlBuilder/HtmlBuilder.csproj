@@ -6,6 +6,8 @@
     <Description>Simple fluent HTML builder</Description>
     <RepositoryUrl>https://github.com/MELkey/HtmlBuilder</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <Version>1.0.1-alpha</Version>
   </PropertyGroup>
 
   <ItemGroup>

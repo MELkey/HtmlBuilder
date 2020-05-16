@@ -14,7 +14,7 @@ var element = elementFactory.Create(e => e.Div)
 ### String result:
 
 ```html
-<div id=""selector"">
-  <div class=""custom_class""/>
+<div id="selector">
+  <div class="custom_class"/>
 </div>
 ```

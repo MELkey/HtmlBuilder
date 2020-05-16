@@ -1,11 +1,8 @@
-﻿using HtmlBuilder.Attributes;
-using HtmlBuilder.Extensions;
+﻿using HtmlBuilder.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace HtmlBuilder.Serializer
 {
@@ -16,24 +13,57 @@ namespace HtmlBuilder.Serializer
         private readonly IElement element;
         private readonly Document document;
 
+        public HtmlSerializer(IElement element)
+            : this(element, new HtmlAttributePrinter(), new HtmlSerializerSettings())
+        {
+        }
+
+        public HtmlSerializer(Document document)
+            : this(document, new HtmlAttributePrinter(), new HtmlSerializerSettings())
+        {
+        }
+
+        public HtmlSerializer(IElement element, IHtmlSerializerSettings settings)
+            : this(element, new HtmlAttributePrinter(), settings)
+        {
+        }
+
+        public HtmlSerializer(Document document, IHtmlSerializerSettings settings)
+            : this(document, new HtmlAttributePrinter(), settings)
+        {
+        }
+
+        public HtmlSerializer(IElement element, IHtmlAttributePrinter htmlAttributePrinter)
+            : this(element, htmlAttributePrinter, new HtmlSerializerSettings())
+        {
+        }
+
+        public HtmlSerializer(Document document, IHtmlAttributePrinter htmlAttributePrinter)
+            : this(document, htmlAttributePrinter, new HtmlSerializerSettings())
+        {
+        }
+
         public HtmlSerializer(IElement element, IHtmlAttributePrinter htmlAttributePrinter, IHtmlSerializerSettings settings)
         {
-            this.element = element;
-            this.settings = settings;
-            this.htmlAttributePrinter = htmlAttributePrinter;
+            this.element = element ?? throw new ArgumentNullException(nameof(element));
+            this.htmlAttributePrinter = htmlAttributePrinter ?? throw new ArgumentNullException(nameof(htmlAttributePrinter));
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
         }
 
         public HtmlSerializer(Document document, IHtmlAttributePrinter htmlAttributePrinter, IHtmlSerializerSettings settings)
         {
-            this.document = document;
-            this.element = document.HtmlContainer.Html;
-            this.settings = settings;
-            this.htmlAttributePrinter = htmlAttributePrinter;
-        }
+            this.document = document ?? throw new ArgumentNullException(nameof(document));
+            if (document.HtmlContainer == null)
+                throw new ArgumentNullException(nameof(document.HtmlContainer));
+            this.element = document.HtmlContainer.Html ?? throw new ArgumentNullException(nameof(document.HtmlContainer.Html));
+            this.htmlAttributePrinter = htmlAttributePrinter ?? throw new ArgumentNullException(nameof(htmlAttributePrinter));
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+        }        
 
         public void Serialize(TextWriter textWriter)
         {
-            if(document != null)
+            if (document != null)
             {
                 textWriter.Write(document.TypeValue);
                 textWriter.WriteLine();

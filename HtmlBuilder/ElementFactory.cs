@@ -9,8 +9,8 @@ namespace HtmlBuilder
 {
     public class ElementFactory : IElementFactory
     {
-        public Element<TAttributesSet, IElement> Create<TAttributesSet>(
-            Expression<Func<ITagSet<IElement>, Element<TAttributesSet, IElement>>> tagSelector)
+        public IElement<TAttributesSet, IElement> Create<TAttributesSet>(
+            Expression<Func<ITagSet<IElement>, IElement<TAttributesSet, IElement>>> tagSelector)
             where TAttributesSet : GlobalElement, new()
         {
             var serializerFactory = new HtmlSerializerFactory();
@@ -20,8 +20,8 @@ namespace HtmlBuilder
             return element;
         }
 
-        public Element<TAttributesSet, IElement> Create<TAttributesSet>(
-            Expression<Func<ITagSet<IElement>, Element<TAttributesSet, IElement>>> tagSelector,
+        public IElement<TAttributesSet, IElement> Create<TAttributesSet>(
+            Expression<Func<ITagSet<IElement>, IElement<TAttributesSet, IElement>>> tagSelector,
             IHtmlSerializerFactory serializerFactory)
             where TAttributesSet : GlobalElement, new()
         {

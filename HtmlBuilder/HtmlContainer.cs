@@ -8,9 +8,9 @@ namespace HtmlBuilder
 {
     public class HtmlContainer
     {
-        public Element<Html, IElement> Html { get; }
-        public Element<Head, Element<Html, IElement>> Head { get; }
-        public Element<Body, Element<Html, IElement>> Body { get; }
+        public IElement<Html, IElement> Html { get; }
+        public IElement<Head, IElement<Html, IElement>> Head { get; }
+        public IElement<Body, IElement<Html, IElement>> Body { get; }
 
         public HtmlContainer()
             : this(default(Document))

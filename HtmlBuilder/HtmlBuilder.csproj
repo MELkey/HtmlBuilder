@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.2</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>MELkey</Authors>
     <Description>Simple fluent HTML builder</Description>
     <RepositoryUrl>https://github.com/MELkey/HtmlBuilder</RepositoryUrl>
@@ -9,9 +9,5 @@
     <RepositoryType>git</RepositoryType>
     <Version>1.1.0-alpha</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
-  </ItemGroup>
 
 </Project>

@@ -22,11 +22,11 @@ namespace HtmlBuilder.Test
         public void SerializeTextTest()
         {
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                     .AddChild(e => e.Div, out var child)
-                    .AddAttribute(a => a.Class, c => c.SetValue("child_class"))
+                    .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue("child_class"))
                         .AddChild(e => e.A)
-                        .AddAttribute(a => a.HRef, r => r.SetValue("https://host.com"))
+                        .AddAttribute(a => a.HRef).UseActionAttribute(r => r.SetValue("https://host.com"))
                         .AddContent("The link")
                 .Root;
 
@@ -51,20 +51,19 @@ namespace HtmlBuilder.Test
         public void SaveToFileTest()
         {
             var document = new Document()
-                .HtmlContainer
-                .AddAttribute(a => a.Lang, l => l.SetValue("en"))
-                .AddAttribute(a => a.ItemScope, @is => @is.SetValue(true))
-                .AddAttribute(a => a.ItemType, it => it.SetValue("https://schema.org"))
-                    .Head
+                .Html
+                .AddAttribute(a => a.Lang).UseActionAttribute(l => l.SetValue("en"))
+                .AddAttribute(a => a.ItemScope).UseActionAttribute(@is => @is.SetValue(true))
+                .AddAttribute(a => a.ItemType).UseActionAttribute(it => it.SetValue("https://schema.org"))
+                .Document.Head
                         .AddChild(e => e.Link)
-                        .AddAttribute(a => a.Rel, r => r.SetValue("main.css"))
-                .Document.HtmlContainer
-                    .Body
+                        .AddAttribute(a => a.Rel).UseActionAttribute(r => r.SetValue("main.css"))
+                .Document.Body
                         .AddChild(e => e.Header)
                         .AddChild(e => e.Div)
-                        .AddAttribute(d => d.Class, cls => cls.SetValue("main_container"))
+                        .AddAttribute(d => d.Class).UseActionAttribute(cls => cls.SetValue("main_container"))
                             .AddCustomChild("custom_tag")
-                                .AddAttribute(ct => ct.AccessKey, ak => ak.SetValue("custom_key"))
+                                .AddAttribute(ct => ct.AccessKey).UseActionAttribute(ak => ak.SetValue("custom_key"))
                                 .AddCustomAttribute("custom_attribute", "custom_attribute")
                                 .AddContent("Text in custom element")
                         .Parent
@@ -117,20 +116,19 @@ namespace HtmlBuilder.Test
         public async Task SaveToFileTestAsync()
         {
             var document = new Document()
-                .HtmlContainer
-                .AddAttribute(a => a.Lang, l => l.SetValue("en"))
-                .AddAttribute(a => a.ItemScope, @is => @is.SetValue(true))
-                .AddAttribute(a => a.ItemType, it => it.SetValue("https://schema.org"))
-                    .Head
+                .Html
+                .AddAttribute(a => a.Lang).UseActionAttribute(l => l.SetValue("en"))
+                .AddAttribute(a => a.ItemScope).UseActionAttribute(@is => @is.SetValue(true))
+                .AddAttribute(a => a.ItemType).UseActionAttribute(it => it.SetValue("https://schema.org"))
+                .Document.Head
                         .AddChild(e => e.Link)
-                        .AddAttribute(a => a.Rel, r => r.SetValue("main.css"))
-                .Document.HtmlContainer
-                    .Body
+                        .AddAttribute(a => a.Rel).UseActionAttribute(r => r.SetValue("main.css"))
+                .Document.Body
                         .AddChild(e => e.Header)
                         .AddChild(e => e.Div)
-                        .AddAttribute(d => d.Class, cls => cls.SetValue("main_container"))
+                        .AddAttribute(d => d.Class).UseActionAttribute(cls => cls.SetValue("main_container"))
                             .AddCustomChild("custom_tag")
-                                .AddAttribute(ct => ct.AccessKey, ak => ak.SetValue("custom_key"))
+                                .AddAttribute(ct => ct.AccessKey).UseActionAttribute(ak => ak.SetValue("custom_key"))
                                 .AddCustomAttribute("custom_attribute", "custom_attribute")
                                 .AddContent("Text in custom element")
                         .Parent
@@ -139,6 +137,7 @@ namespace HtmlBuilder.Test
                         .AddChild(e => e.Footer)
                 .Document
                 ;
+
             using (var fileStream = new FileStream(file, FileMode.Create, FileAccess.Write))
             {
                 using (var streamWriter = new StreamWriter(fileStream))

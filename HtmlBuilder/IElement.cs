@@ -10,7 +10,8 @@ namespace HtmlBuilder
     {
         new TParent Parent { get; }
 
-        IElement<TTag, TParent> AddAttribute<TAttribute>(Expression<Func<TTag, TAttribute>> attributeSelector, Expression<Action<TAttribute>> valueAction) where TAttribute : IAttribute, new();
+        IAttributeConfigurator<TAttribute, IElement<TTag, TParent>> AddAttribute<TAttribute>(Expression<Func<TTag, TAttribute>> attributeSelector)
+            where TAttribute : IAttribute, new();
         IElement<TChildAttributesSet, IElement<TTag, TParent>> AddChild<TChildAttributesSet, TParrentOld>(IElement<TChildAttributesSet, TParrentOld> element)
             where TChildAttributesSet : GlobalElement, new()
             where TParrentOld : IElement;

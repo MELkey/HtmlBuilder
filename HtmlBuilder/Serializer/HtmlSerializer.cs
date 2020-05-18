@@ -54,9 +54,7 @@ namespace HtmlBuilder.Serializer
         public HtmlSerializer(Document document, IHtmlAttributePrinter htmlAttributePrinter, IHtmlSerializerSettings settings)
         {
             this.document = document ?? throw new ArgumentNullException(nameof(document));
-            if (document.HtmlContainer == null)
-                throw new ArgumentNullException(nameof(document.HtmlContainer));
-            this.element = document.HtmlContainer.Html ?? throw new ArgumentNullException(nameof(document.HtmlContainer.Html));
+            this.element = document.Html ?? throw new ArgumentNullException(nameof(document.Html));
             this.htmlAttributePrinter = htmlAttributePrinter ?? throw new ArgumentNullException(nameof(htmlAttributePrinter));
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }        

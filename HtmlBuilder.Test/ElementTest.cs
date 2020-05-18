@@ -17,9 +17,9 @@ namespace HtmlBuilderTest
         public void HtmlElementFactoryTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                     .AddChild(e => e.Div)
-                    .AddAttribute(a => a.Class, c => c.SetValue("custom_class"))
+                    .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue("custom_class"))
                 .Root;
 
             var text = element.ToString();
@@ -32,14 +32,14 @@ namespace HtmlBuilderTest
             Assert.IsNotNull(element);
             Assert.IsNotNull(element.Root);
             Assert.IsNull(element.Parent);
-            Assert.AreEqual(text, testText);            
+            Assert.AreEqual(text, testText);
         }
 
         [Test]
         public void AddCustomChildTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                     .AddCustomChild("custom_element")
                 .Root;
 
@@ -60,7 +60,7 @@ namespace HtmlBuilderTest
         public void AddCustomAttributeTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                 .AddCustomAttribute("custom_attribute", "custom_value");
 
             var text = element.ToString();
@@ -77,7 +77,7 @@ namespace HtmlBuilderTest
         public void AddContentTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute( i => i.SetValue("selector"))
                 .AddContent("The content");
 
             var text = element.ToString();
@@ -95,15 +95,15 @@ namespace HtmlBuilderTest
         {
             var classes = new[] { "first_class", "second_class" };
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
-                .AddAttribute(a => a.Class, c => c.SetValue(classes))
-                .AddAttribute(a => a.Draggable, d => d.SetValue(true))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue(classes))
+                .AddAttribute(a => a.Draggable).UseActionAttribute(d => d.SetValue(true))
                 .AddCustomAttribute("custom_attribute", "custom_value");
 
             var text = element.ToString();
 
             var testText = @"<div id=""selector"" class=""first_class second_class"" draggable custom_attribute=""custom_value""/>";
-            
+
             Assert.IsNotNull(element);
             Assert.IsNotNull(element.Root);
             Assert.IsNull(element.Parent);
@@ -114,14 +114,14 @@ namespace HtmlBuilderTest
         public void InsertChildTest()
         {
             var child = elementFactory.Create(e => e.A)
-                .AddAttribute(a => a.HRef, r => r.SetValue("https://host.com"));
+                .AddAttribute(a => a.HRef).UseActionAttribute(r => r.SetValue("https://host.com"));
 
             Assert.IsNotNull(child);
             Assert.IsNotNull(child.Root);
             Assert.IsNull(child.Parent);
 
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                     .AddChild(child)
                 .Root;
 
@@ -143,15 +143,15 @@ namespace HtmlBuilderTest
         {
 
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
                     .AddChild(e => e.Div, out var child)
-                    .AddAttribute(a => a.Class, c => c.SetValue("child_class"))
+                    .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue("child_class"))
                         .AddChild(e => e.A)
-                        .AddAttribute(a => a.HRef, r => r.SetValue("https://host.com"))
-                        .AddContent("The link")  
+                        .AddAttribute(a => a.HRef).UseActionAttribute(r => r.SetValue("https://host.com"))
+                        .AddContent("The link")
                     .Parent
                     .AddChild(e => e.Input)
-                        .AddAttribute(e => e.FormEncType, fet => fet.SetValue(FormEncTypeValue.Application))
+                        .AddAttribute(e => e.FormEncType).UseActionAttribute(fet => fet.SetValue(FormEncTypeValue.Application))
                 .Root;
 
             var childText = child.ToString();
@@ -175,12 +175,12 @@ namespace HtmlBuilderTest
 
             Assert.IsNotNull(child);
             Assert.IsNotNull(child.Root);
-            Assert.IsNotNull(child.Parent);            
+            Assert.IsNotNull(child.Parent);
             Assert.IsNotNull(element);
             Assert.IsNotNull(element.Root);
             Assert.IsNull(element.Parent);
             Assert.AreEqual(child.Root, element.Root);
-            Assert.AreEqual(child.Parent, element);            
+            Assert.AreEqual(child.Parent, element);
             Assert.AreEqual(childText, childTestText);
             Assert.AreEqual(text, testText);
         }

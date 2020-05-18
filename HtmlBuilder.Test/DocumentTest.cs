@@ -10,20 +10,20 @@ namespace HtmlBuilder.Test
         public void TestDocument()
         {
             var document = new Document()
-                .HtmlContainer
-                .AddAttribute(a => a.Lang, l => l.SetValue("en"))
-                .AddAttribute(a => a.ItemScope, @is => @is.SetValue(true))
-                .AddAttribute(a => a.ItemType, it => it.SetValue("https://schema.org"))
-                    .Head
+                .Html
+                .AddAttribute(a => a.Lang).UseActionAttribute(l => l.SetValue("en"))
+                .AddAttribute(a => a.ItemScope).UseActionAttribute(@is => @is.SetValue(true))
+                .AddAttribute(a => a.ItemType).UseActionAttribute(it => it.SetValue("https://schema.org"))
+                .Document.Head
                         .AddChild(e => e.Link)
-                        .AddAttribute(a => a.Rel, r => r.SetValue("main.css"))
-                .Document.HtmlContainer
+                        .AddAttribute(a => a.Rel).UseActionAttribute(r => r.SetValue("main.css"))
+                .Document
                     .Body
                         .AddChild(e => e.Header)
                         .AddChild(e => e.Div)
-                        .AddAttribute(d => d.Class, cls => cls.SetValue("main_container"))
+                        .AddAttribute(d => d.Class).UseActionAttribute(cls => cls.SetValue("main_container"))
                             .AddCustomChild("custom_tag")
-                                .AddAttribute(ct => ct.AccessKey, ak => ak.SetValue("custom_key"))
+                                .AddAttribute(ct => ct.AccessKey).UseActionAttribute(ak => ak.SetValue("custom_key"))
                                 .AddCustomAttribute("custom_attribute", "custom_attribute")
                                 .AddContent("Text in custom element")
                         .Parent
@@ -53,7 +53,7 @@ namespace HtmlBuilder.Test
 </html>";
 
             Assert.IsNotNull(document);
-            Assert.IsNotNull(document.HtmlContainer);
+            Assert.IsNotNull(document.Html);
             Assert.AreEqual(htmlText, testHtmlText);
         }
     }

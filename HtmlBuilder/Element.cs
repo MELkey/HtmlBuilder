@@ -26,17 +26,15 @@ namespace HtmlBuilder
             Parent = (TParent)base.Parent;
         }
 
-        public IElement<TTag, TParent> AddAttribute<TAttribute>(
-            Expression<Func<TTag, TAttribute>> attributeSelector,
-            Expression<Action<TAttribute>> valueAction)
+        public IAttributeConfigurator<TAttribute, IElement<TTag, TParent>> AddAttribute<TAttribute>(
+            Expression<Func<TTag, TAttribute>> attributeSelector)
             where TAttribute : IAttribute, new()
         {
+            
             var attribute = new TAttribute();
-            valueAction.Compile().Invoke(attribute);
-
             attributes.Add(attribute);
-
-            return this;
+            var configurator = new AttributeConfigurator<TAttribute, IElement<TTag, TParent>>(attribute, this);
+            return configurator;
         }
 
         public IElement<TTag, TParent> AddCustomAttribute(string name, string value)

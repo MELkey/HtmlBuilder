@@ -17,7 +17,7 @@ namespace HtmlBuilder
             this.element = element;
         }
 
-        public TElement UseActionAttribute(Action<TAttribute> action)
+        public TElement Setup(Action<TAttribute> action)
         {
             action.Invoke(attribute);
             return element;

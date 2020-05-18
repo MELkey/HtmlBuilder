@@ -17,9 +17,9 @@ namespace HtmlBuilderTest
         public void HtmlElementFactoryTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                     .AddChild(e => e.Div)
-                    .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue("custom_class"))
+                    .AddAttribute(a => a.Class).Setup(c => c.SetValue("custom_class"))
                 .Root;
 
             var text = element.ToString();
@@ -39,7 +39,7 @@ namespace HtmlBuilderTest
         public void AddCustomChildTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                     .AddCustomChild("custom_element")
                 .Root;
 
@@ -60,7 +60,7 @@ namespace HtmlBuilderTest
         public void AddCustomAttributeTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                 .AddCustomAttribute("custom_attribute", "custom_value");
 
             var text = element.ToString();
@@ -77,7 +77,7 @@ namespace HtmlBuilderTest
         public void AddContentTest()
         {
             var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute( i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup( i => i.SetValue("selector"))
                 .AddContent("The content");
 
             var text = element.ToString();
@@ -95,9 +95,9 @@ namespace HtmlBuilderTest
         {
             var classes = new[] { "first_class", "second_class" };
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
-                .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue(classes))
-                .AddAttribute(a => a.Draggable).UseActionAttribute(d => d.SetValue(true))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Class).Setup(c => c.SetValue(classes))
+                .AddAttribute(a => a.Draggable).Setup(d => d.SetValue(true))
                 .AddCustomAttribute("custom_attribute", "custom_value");
 
             var text = element.ToString();
@@ -114,14 +114,14 @@ namespace HtmlBuilderTest
         public void InsertChildTest()
         {
             var child = elementFactory.Create(e => e.A)
-                .AddAttribute(a => a.HRef).UseActionAttribute(r => r.SetValue("https://host.com"));
+                .AddAttribute(a => a.HRef).Setup(r => r.SetValue("https://host.com"));
 
             Assert.IsNotNull(child);
             Assert.IsNotNull(child.Root);
             Assert.IsNull(child.Parent);
 
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                     .AddChild(child)
                 .Root;
 
@@ -143,15 +143,15 @@ namespace HtmlBuilderTest
         {
 
             var element = elementFactory.Create(x => x.Div)
-                .AddAttribute(a => a.Id).UseActionAttribute(i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                     .AddChild(e => e.Div, out var child)
-                    .AddAttribute(a => a.Class).UseActionAttribute(c => c.SetValue("child_class"))
+                    .AddAttribute(a => a.Class).Setup(c => c.SetValue("child_class"))
                         .AddChild(e => e.A)
-                        .AddAttribute(a => a.HRef).UseActionAttribute(r => r.SetValue("https://host.com"))
+                        .AddAttribute(a => a.HRef).Setup(r => r.SetValue("https://host.com"))
                         .AddContent("The link")
                     .Parent
                     .AddChild(e => e.Input)
-                        .AddAttribute(e => e.FormEncType).UseActionAttribute(fet => fet.SetValue(FormEncTypeValue.Application))
+                        .AddAttribute(e => e.FormEncType).Setup(fet => fet.SetValue(FormEncTypeValue.Application))
                 .Root;
 
             var childText = child.ToString();

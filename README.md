@@ -5,9 +5,9 @@ Simple fluent html builder
 ```csharp
 var elementFactory = new ElementFactory();
 var element = elementFactory.Create(e => e.Div)
-                .AddAttribute(a => a.Id, i => i.SetValue("selector"))
+                .AddAttribute(a => a.Id).Setup(i => i.SetValue("selector"))
                     .AddChild(e => e.Div)
-                    .AddAttribute(a => a.Class, c => c.SetValue("custom_class"))
+                    .AddAttribute(a => a.Class).Setup(c => c.SetValue("custom_class"))
                 .Root;
 ```
 

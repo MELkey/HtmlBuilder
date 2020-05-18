@@ -11,19 +11,19 @@ namespace HtmlBuilder.Test
         {
             var document = new Document()
                 .Html
-                .AddAttribute(a => a.Lang).UseActionAttribute(l => l.SetValue("en"))
-                .AddAttribute(a => a.ItemScope).UseActionAttribute(@is => @is.SetValue(true))
-                .AddAttribute(a => a.ItemType).UseActionAttribute(it => it.SetValue("https://schema.org"))
+                .AddAttribute(a => a.Lang).Setup(l => l.SetValue("en"))
+                .AddAttribute(a => a.ItemScope).Setup(@is => @is.SetValue(true))
+                .AddAttribute(a => a.ItemType).Setup(it => it.SetValue("https://schema.org"))
                 .Document.Head
                         .AddChild(e => e.Link)
-                        .AddAttribute(a => a.Rel).UseActionAttribute(r => r.SetValue("main.css"))
+                        .AddAttribute(a => a.Rel).Setup(r => r.SetValue("main.css"))
                 .Document
                     .Body
                         .AddChild(e => e.Header)
                         .AddChild(e => e.Div)
-                        .AddAttribute(d => d.Class).UseActionAttribute(cls => cls.SetValue("main_container"))
+                        .AddAttribute(d => d.Class).Setup(cls => cls.SetValue("main_container"))
                             .AddCustomChild("custom_tag")
-                                .AddAttribute(ct => ct.AccessKey).UseActionAttribute(ak => ak.SetValue("custom_key"))
+                                .AddAttribute(ct => ct.AccessKey).Setup(ak => ak.SetValue("custom_key"))
                                 .AddCustomAttribute("custom_attribute", "custom_attribute")
                                 .AddContent("Text in custom element")
                         .Parent

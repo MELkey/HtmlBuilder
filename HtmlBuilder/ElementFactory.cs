@@ -11,7 +11,7 @@ namespace HtmlBuilder
     {
         public IElement<TAttributesSet, IElement> Create<TAttributesSet>(
             Expression<Func<ITagSet<IElement>, IElement<TAttributesSet, IElement>>> tagSelector)
-            where TAttributesSet : GlobalElement, new()
+            where TAttributesSet : IGlobalElement, new()
         {
             var serializerFactory = new HtmlSerializerFactory();
             Element<TAttributesSet, IElement> element = null;
@@ -23,7 +23,7 @@ namespace HtmlBuilder
         public IElement<TAttributesSet, IElement> Create<TAttributesSet>(
             Expression<Func<ITagSet<IElement>, IElement<TAttributesSet, IElement>>> tagSelector,
             IHtmlSerializerFactory serializerFactory)
-            where TAttributesSet : GlobalElement, new()
+            where TAttributesSet : IGlobalElement, new()
         {
             Element<TAttributesSet, IElement> element = null;
             element = new Element<TAttributesSet, IElement>(null, element, null, serializerFactory);

@@ -5,7 +5,8 @@ using System.Linq.Expressions;
 
 namespace HtmlBuilder
 {
-    internal sealed class Element<TTag, TParent> : ElementBase, IElement<TTag, TParent> where TTag : GlobalElement, new()
+    internal sealed class Element<TTag, TParent> : ElementBase, IElement<TTag, TParent> 
+        where TTag : IGlobalElement, new()
         where TParent : IElement
     {
         private readonly TTag attributeSet;
@@ -47,7 +48,7 @@ namespace HtmlBuilder
 
         public IElement<TChildAttributesSet, IElement<TTag, TParent>> AddChild<TChildAttributesSet>(
             Expression<Func<ITagSet<TParent>, IElement<TChildAttributesSet, TParent>>> tagSelector)
-            where TChildAttributesSet : GlobalElement, new()
+            where TChildAttributesSet : IGlobalElement, new()
         {
             var child = new Element<TChildAttributesSet, IElement<TTag, TParent>>(Document, Root, this, serializerFactory);
             childs.Add(child);
@@ -57,7 +58,7 @@ namespace HtmlBuilder
         public IElement<TChildAttributesSet, IElement<TTag, TParent>> AddChild<TChildAttributesSet>(
             Expression<Func<ITagSet<TParent>, IElement<TChildAttributesSet, TParent>>> tagSelector,
             out IElement<TChildAttributesSet, IElement<TTag, TParent>> child)
-            where TChildAttributesSet : GlobalElement, new()
+            where TChildAttributesSet : IGlobalElement, new()
         {
             var result = new Element<TChildAttributesSet, IElement<TTag, TParent>>(Document, Root, this, serializerFactory);
             child = result;
@@ -75,7 +76,7 @@ namespace HtmlBuilder
 
         public IElement<TChildAttributesSet, IElement<TTag, TParent>> AddChild<TChildAttributesSet, TParrentOld>(
             IElement<TChildAttributesSet, TParrentOld> element)
-            where TChildAttributesSet : GlobalElement, new()
+            where TChildAttributesSet : IGlobalElement, new()
             where TParrentOld : IElement
         {
             var child = new Element<TChildAttributesSet, IElement<TTag, TParent>>(Document, Root, this, serializerFactory);
@@ -95,8 +96,8 @@ namespace HtmlBuilder
             Element<TTagNew, TParrentNew> newElement)
             where TParrentNew : IElement
             where TParrentOld : IElement
-            where TTagNew : GlobalElement, new()
-            where TTagOld : GlobalElement, new()
+            where TTagNew : IGlobalElement, new()
+            where TTagOld : IGlobalElement, new()
         {
             newElement.childs.AddRange(oldElement.Childs);
             newElement.attributes.AddRange(oldElement.Attributes);

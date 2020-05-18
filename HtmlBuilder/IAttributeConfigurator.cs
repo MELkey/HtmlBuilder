@@ -6,6 +6,6 @@ namespace HtmlBuilder
         where TAttribute : IAttribute
         where TElement : IElement
     {
-        TElement UseActionAttribute(Action<TAttribute> action);
+        TElement Setup(Action<TAttribute> action);
     }
 }

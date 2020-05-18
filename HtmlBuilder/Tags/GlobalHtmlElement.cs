@@ -2,7 +2,7 @@
 
 namespace HtmlBuilder.Tags
 {
-    public abstract class GlobalElement
+    public abstract class GlobalElement : IGlobalElement
     {
         public abstract string TagName { get; }
 
@@ -132,6 +132,6 @@ namespace HtmlBuilder.Tags
         /// Whether the element is to be translated when the page is localized
         /// </summary>
         public Translate Translate { get; set; }
-        
+
     }
 }

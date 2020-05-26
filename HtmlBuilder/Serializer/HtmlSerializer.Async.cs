@@ -96,7 +96,7 @@ namespace HtmlBuilder.Serializer
         {
             foreach (var attribute in attributes)
             {
-                var stringValue = htmlAttributePrinter.Print(attribute);
+                var stringValue = PrintAttribute(attribute);
                 if (string.IsNullOrEmpty(stringValue))
                     continue;
 

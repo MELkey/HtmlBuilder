@@ -8,56 +8,41 @@ namespace HtmlBuilder.Serializer
 {
     public partial class HtmlSerializer : IHtmlSerializerAsync
     {
-        private readonly IHtmlAttributePrinter htmlAttributePrinter;
+        private readonly HtmlAttributePrinterDefault attributePrinterDefault = new HtmlAttributePrinterDefault();
         private readonly IHtmlSerializerSettings settings;
+        private readonly IReadOnlyDictionary<Type, IHtmlAttributeValueTypePrinter> attributeValueTypeSerializers;
+        private readonly IReadOnlyDictionary<Type, IHtmlAttributePrinter> attributeSerializers;
+
         private readonly IElement element;
         private readonly Document document;
 
+
         public HtmlSerializer(IElement element)
-            : this(element, new HtmlAttributePrinter(), new HtmlSerializerSettings())
+            : this(element, new HtmlSerializerSettings())
         {
         }
 
         public HtmlSerializer(Document document)
-            : this(document, new HtmlAttributePrinter(), new HtmlSerializerSettings())
+            : this(document, new HtmlSerializerSettings())
         {
         }
 
         public HtmlSerializer(IElement element, IHtmlSerializerSettings settings)
-            : this(element, new HtmlAttributePrinter(), settings)
         {
+            this.element = element ?? throw new ArgumentNullException(nameof(element));
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            this.attributeSerializers = settings.AttributeSerializers;
+            this.attributeValueTypeSerializers = settings.AttributeValueTypeSerializers;
         }
 
         public HtmlSerializer(Document document, IHtmlSerializerSettings settings)
-            : this(document, new HtmlAttributePrinter(), settings)
-        {
-        }
-
-        public HtmlSerializer(IElement element, IHtmlAttributePrinter htmlAttributePrinter)
-            : this(element, htmlAttributePrinter, new HtmlSerializerSettings())
-        {
-        }
-
-        public HtmlSerializer(Document document, IHtmlAttributePrinter htmlAttributePrinter)
-            : this(document, htmlAttributePrinter, new HtmlSerializerSettings())
-        {
-        }
-
-        public HtmlSerializer(IElement element, IHtmlAttributePrinter htmlAttributePrinter, IHtmlSerializerSettings settings)
-        {
-            this.element = element ?? throw new ArgumentNullException(nameof(element));
-            this.htmlAttributePrinter = htmlAttributePrinter ?? throw new ArgumentNullException(nameof(htmlAttributePrinter));
-            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
-
-        }
-
-        public HtmlSerializer(Document document, IHtmlAttributePrinter htmlAttributePrinter, IHtmlSerializerSettings settings)
         {
             this.document = document ?? throw new ArgumentNullException(nameof(document));
             this.element = document.Html ?? throw new ArgumentNullException(nameof(document.Html));
-            this.htmlAttributePrinter = htmlAttributePrinter ?? throw new ArgumentNullException(nameof(htmlAttributePrinter));
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
-        }        
+            this.attributeSerializers = settings.AttributeSerializers;
+            this.attributeValueTypeSerializers = settings.AttributeValueTypeSerializers;
+        }
 
         public void Serialize(TextWriter textWriter)
         {
@@ -145,13 +130,26 @@ namespace HtmlBuilder.Serializer
         {
             foreach (var attribute in attributes)
             {
-                var stringValue = htmlAttributePrinter.Print(attribute);
+                var stringValue = PrintAttribute(attribute);
                 if (string.IsNullOrEmpty(stringValue))
                     continue;
 
                 textWriter.Write(settings.Tokens.WhiteSpace);
                 textWriter.Write(stringValue);
             }
+        }
+
+        private string PrintAttribute(IAttribute attribute)
+        {
+            var attributeType = attribute.GetType();
+            if (attributeSerializers.ContainsKey(attributeType))
+                return attributeSerializers[attributeType].PrintAttribute(attribute);
+
+            var valueType = attribute.Value.GetType();
+            if (attributeValueTypeSerializers.ContainsKey(valueType))
+                return attributeValueTypeSerializers[valueType].PrintAttribute(attribute);
+
+            return attributePrinterDefault.Print(attribute);
         }
 
         private void AddContent(IElement element, TextWriter textWriter)

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HtmlBuilder.Serializer
 {
-    public interface IHtmlAttributePrinter
+    public interface IHtmlAttributeValueTypePrinter
     {
         string PrintAttribute(IAttribute attribute);
     }
